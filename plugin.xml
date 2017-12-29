@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
-<plugin xmlns="http://www.phonegap.com/ns/plugins/1.0" xmlns:m2="http://schemas.microsoft.com/appx/2013/manifest" xmlns:android="http://schemas.android.com/apk/res/android" id="cordova-plugin-geofence" version="0.7.0">
+<plugin xmlns="http://www.phonegap.com/ns/plugins/1.0" xmlns:m2="http://schemas.microsoft.com/appx/2013/manifest" xmlns:android="http://schemas.android.com/apk/res/android" id="cordova-plugin-geofence" version="0.7.2">
     <name>geofence</name>
     <description>Geofence plugin</description>
     <license>Apache 2.0</license>
@@ -46,7 +46,11 @@
         <source-file src="src/android/ReceiveTransitionsIntentService.java" target-dir="src/com/cowbell/cordova/geofence" />
         <source-file src="src/android/RemoveGeofenceCommand.java" target-dir="src/com/cowbell/cordova/geofence" />
         <source-file src="src/android/TransitionReceiver.java" target-dir="src/com/cowbell/cordova/geofence" />
+<<<<<<< HEAD
 
+=======
+ 
+>>>>>>> d11fb65b6180b9ccae44fe4b7e6c369491ab7e64
         <framework src="com.google.android.gms:play-services-location:+" />
         <lib-file src="src/android/libs/gson-2.3.jar" />
 
