@@ -51,6 +51,14 @@ public class GeofencePlugin extends CordovaPlugin {
   public static final String ERROR_GEOFENCE_NOT_AVAILABLE = "GEOFENCE_NOT_AVAILABLE";
   public static final String ERROR_GEOFENCE_LIMIT_EXCEEDED = "GEOFENCE_LIMIT_EXCEEDED";
   private static final float RADIUS = 16f;
+  private static final int COUNT_OF_POINTS = 3;
+
+  static final Comparator<GeoNotification> GEO_NOTIFICATION_COMPARATOR =
+    new Comparator<GeoNotification>() {
+      public int compare(GeoNotification gn1, GeoNotification gn2) {
+        return Double.compare(gn1.distance, gn2.distance);
+      }
+    };
 
   private GeoNotificationManager geoNotificationManager;
   private TransitionReceiver transitionReceiver;
@@ -84,9 +92,9 @@ public class GeofencePlugin extends CordovaPlugin {
     Logger.setLogger(new Logger(TAG, context, false));
     geoNotificationManager = new GeoNotificationManager(context);
 
-    initFireBase();
     transitionReceiver = new TransitionReceiver();
     transitionReceiver.onReceive(context, this.cordova.getActivity().getIntent());
+    initFireBase();
   }
 
   @Override
@@ -162,11 +170,13 @@ public class GeofencePlugin extends CordovaPlugin {
 
                 geoNotification.id = key;
                 geoNotification.url = "https://dollar-general-e532b.firebaseio.com/geoFencesDetails/" + key;
+                //todo add groupId
+                geoNotification.groupId = null;
                 geoNotification.distance = GeoUtils.distance(location, new GeoLocation(geoNotification.latitude, geoNotification.longitude)) - geoNotification.radius;
 
                 geoNots.add(geoNotification);
 
-//                if (geoNots.size() > 1) {
+                if (geoNots.size() > COUNT_OF_POINTS) {
 //                  for (GeoNotification gn : geoNots) {
 //                    final GeoNotification nearest = Collections.min(geoNots, new Comparator<GeoNotification>() {
 //
@@ -175,9 +185,12 @@ public class GeofencePlugin extends CordovaPlugin {
 //                      }
 //                    });
 //                  }
-//                }
 
-                geoNotificationManager.addGeoNotifications(geoNots, null);
+                  Collections.sort(geoNots, GEO_NOTIFICATION_COMPARATOR);
+                  geoNotificationManager.addGeoNotifications(geoNots.subList(0, COUNT_OF_POINTS), null);
+                } else {
+                  geoNotificationManager.addGeoNotifications(geoNots, null);
+                }
               }
 
               @Override

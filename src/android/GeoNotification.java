@@ -5,12 +5,14 @@ import com.google.gson.annotations.Expose;
 import java.util.*;
 
 public class GeoNotification {
+
     @Expose public String id;
     @Expose public double latitude;
     @Expose public double longitude;
     @Expose public int radius;
     @Expose public int transitionType;
-    public double distance;
+    @Expose public double distance;
+    @Expose public String groupId;
 
 
     @Expose public String url;
